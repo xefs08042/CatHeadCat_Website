@@ -114,15 +114,13 @@ function KGRender(map, AMap) {
     axios.post('/api/get_KG_data/', {
         zoom: zoom,
         extent: extent,
-        onDownloadProgress(progressEvent) {
-            // 监听下载进度
-            if (progressEvent.lengthComputable) {   //是否存在进度
-                var percentCompleted = Math.round( (progressEvent.loaded * 100) / progressEvent.total );
-                // this.progressBar = percentCompleted
-                console.log('进度：',percentCompleted)
-                this.$forceUpdate();
-            }
-        }
+        // onDownloadProgress(progressEvent) {
+        //     // 监听下载进度
+        //     if (progressEvent.lengthComputable) {   //是否存在进度
+        //         var percentCompleted = Math.round( (progressEvent.loaded * 100) / progressEvent.total );                console.log('进度：',percentCompleted);
+        //         this.$forceUpdate();
+        //     }
+        // }
     }).then(function(ret){      //通过后端服务器获取json字典数据，url为请求地址
     // d3.json("public/graph.json").then(function(data) {      //通过本地json文件获取数据，path为文件路径
         let graph = ret.data;
@@ -130,7 +128,7 @@ function KGRender(map, AMap) {
         const simulation = d3.forceSimulation(graph.nodes)
             // .force("x", d3.forceX(width / 2).strength(1))
             // .force("y", d3.forceY(height / 2).strength(1))
-            // .force("collide", d3.forceCollide(d => d.radius * 1.2).strength(1))
+            .force("collide", d3.forceCollide(d => d.radius * 1.2).strength(1))
             .force("charge", d3.forceManyBody().strength(-30))
             .force("link", d3.forceLink(graph.links).id(function(d) {return d.id; }).distance(50).strength(1))
             .force("radial", d3.forceRadial().radius(200).x(width / 2).y(height / 2))

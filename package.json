@@ -17,6 +17,7 @@
     "jquery": "^3.7.0",
     "ol": "^7.5.1",
     "vue": "^3.2.45",
+    "vue-progressbar": "^0.7.5",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {

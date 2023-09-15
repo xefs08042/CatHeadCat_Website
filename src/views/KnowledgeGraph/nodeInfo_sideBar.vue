@@ -1,12 +1,14 @@
 <template>
     <div class="nodeInfo_siderBar">
         <div id="info" class="info">
-            <h3>基本信息</h3><br>
-            <el-table v-show="nodeInfo" :data="nodeInfo" style="width: 100%" height="80vh">
-                <el-table-column prop="key" label="Key" width="auto" align="center" />
-                <el-table-column prop="value" label="Value" width="auto" align="center" />
-            </el-table>
-            <el-button type="primary" @click="reqClick">Primary</el-button>
+            <div v-show="nodeInfo">
+                <br><h3>基本信息</h3><br>
+                <el-table :data="nodeInfo" style="width: 100%" height="80vh">
+                    <el-table-column prop="key" label="Key" width="auto" align="center" />
+                    <el-table-column prop="value" label="Value" width="auto" align="center" />
+                </el-table>
+                <br><el-button type="primary" @click="reqClick">Primary</el-button>
+            </div>
         </div>
         <div id="btn-info" class="btn-info" @click="nodeInfo_siderBar_display">
             <el-icon><InfoFilled /></el-icon>
@@ -19,7 +21,7 @@ import { defineProps, defineEmits } from 'vue'
 
 // const props = defineProps(['nodeInfo']);
 const props = defineProps<{
-    nodeInfo: any
+    nodeInfo: any,
 }>();
 const emit = defineEmits<{
     (event: 'childFun', val: any): void
