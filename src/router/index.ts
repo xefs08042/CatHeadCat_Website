@@ -4,6 +4,7 @@ import Login from "../views/Login/Login.vue"
 import CHCLog from "../views/CHCLog/CHCLog.vue"
 import TaskLog from "../views/TaskLog/TaskLog.vue"
 import KnowledgeGraph from '../views/KnowledgeGraph/KG.vue'
+import AccountDetail from '../views/AccountDetail/AccountDetail.vue'
 const routes:RouteRecordRaw[] = [
     {
         path:'/',
@@ -69,6 +70,11 @@ const routes:RouteRecordRaw[] = [
         path:'/KnowledgeGraph',
         name:'KnowledgeGraph',
         component:KnowledgeGraph,
+    },
+    {
+        path:'/AccountDetail',
+        name:'AccountDetail',
+        component:AccountDetail,
     },
 ]
 const router = createRouter({

@@ -51,6 +51,20 @@
                     </el-card>
                 </div>
             </el-col>
+        </el-row><br>
+        <el-row :gutter="20" type="flex" justify="center">
+            <el-col :span="6">
+                <div class="el-col-box">
+                    <el-card class="box-card" @click="toAccountDetail">
+                        <template #header>
+                        <div class="card-header">
+                            <span>账 目 明 细</span>
+                        </div>
+                        </template>
+                        <div v-for="o in 4" :key="o" class="text item">{{ 'List item ' + o }}</div>
+                    </el-card>
+                </div>
+            </el-col>
         </el-row>
         </div>
     </div>
@@ -68,6 +82,9 @@ const toTaskLog = () => {
 }
 const toKnowledgeGraph = () => {
   router.push('/KnowledgeGraph')
+}
+const toAccountDetail = () => {
+  router.push('/AccountDetail')
 }
 </script>
 

@@ -38,7 +38,7 @@ function init_GDmap() {
         const map = new AMap.Map("map", {
             viewMode: "3D",
             zoom: 10,
-            // center: [117.3, 34.3]
+            center: [117.3, 34.3]
         });
 
         // 单击
@@ -123,8 +123,9 @@ function KGRender(map, AMap) {
         // }
     }).then(function(ret){      //通过后端服务器获取json字典数据，url为请求地址
     // d3.json("public/graph.json").then(function(data) {      //通过本地json文件获取数据，path为文件路径
-        let graph = ret.data;
-        
+        console.log('status: ' + ret.data['status'])
+        console.log('mblog_count: ' + ret.data['mblog_count'])
+        let graph = ret.data['KG_json'];
         const simulation = d3.forceSimulation(graph.nodes)
             // .force("x", d3.forceX(width / 2).strength(1))
             // .force("y", d3.forceY(height / 2).strength(1))

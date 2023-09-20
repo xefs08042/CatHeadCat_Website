@@ -1,30 +1,34 @@
 <template>
     <div class="form-box">
-        <el-form :model="form" label-width="120px">
-            <el-form-item label="Date & Time">
-                <el-col :span="11">
-                    <el-date-picker
-                    v-model="form.date"
-                    type="date"
-                    placeholder="Pick a date"
-                    style="width: 100%"
-                    />
+        <el-form :model="form" ref="resetFormData" label-width="120px">
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="Date" prop="date">
+                        <el-date-picker
+                        v-model="form.date"
+                        type="date"
+                        placeholder="Pick a date"
+                        style="width: 100%"
+                        />
+                    </el-form-item>
                 </el-col>
-                <el-col :span="2" class="text-center">
+                <!-- <el-col :span="2" class="text-center">
                     <span class="text-gray-500">-</span>
+                </el-col> -->
+                <el-col :span="12">
+                    <el-form-item label="Time" prop="time">
+                        <el-time-picker
+                        v-model="form.time"
+                        placeholder="Pick a time"
+                        style="width: 100%"
+                        />
+                    </el-form-item>
                 </el-col>
-                <el-col :span="11">
-                    <el-time-picker
-                    v-model="form.time"
-                    placeholder="Pick a time"
-                    style="width: 100%"
-                    />
-                </el-col>
-            </el-form-item>
-            <el-form-item label="Theme">
+            </el-row>
+            <el-form-item label="Theme" prop="theme">
                 <el-input v-model="form.theme" />
             </el-form-item>
-            <el-form-item label="Tag">
+            <el-form-item label="Tag" prop="tags">
                 <div>
                     <el-tag v-for="tag in dynamicTags" :key="tag" class="mx-1" closable :disable-transitions="false" @close="handleClose(tag)">
                         {{ tag }}
@@ -35,10 +39,10 @@
                     </el-button>
                 </div>
             </el-form-item>
-            <el-form-item label="content">
+            <el-form-item label="Content" prop="content">
                 <el-input v-model="form.content" type="textarea" :rows="4"/>
             </el-form-item>
-            <el-form-item label="picture">
+            <el-form-item label="Picture" prop="file">
                 <div>
                     <el-upload 
                         v-model:file-list="fileList" 
@@ -60,7 +64,7 @@
             </el-form-item>
             <el-form-item>
             <el-button type="primary" @click="onSubmit">Create</el-button>
-            <el-button>Cancel</el-button>
+            <el-button @click="reset_log_info">Reset</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -104,7 +108,7 @@ const handleInputConfirm = () => {
 const fileList = ref<UploadUserFile[]>([
     // 此列表可用 字典格式 例：{name:'', url:''} 添加照片信息
 ])
-const files = ref([]);
+var files = ref([]);
 
 const dialogImageUrl = ref('')
 const dialogVisible = ref(false)
@@ -129,19 +133,22 @@ const handlePictureCardPreview: UploadProps['onPreview'] = (uploadFile) => {
 }
 
 //表单组件功能 do not use same name with ref
-const form = ref({
+const resetFormData = ref()
+const form = reactive({
   theme: '',
   date: '',
   time: '',
+  tags: dynamicTags,
   content: '',
+  file: fileList
 })
 
 const onSubmit = async() => {
     let formData = new FormData();
-    formData.append("theme", form.value.theme);
-    formData.append("date", form.value.date);
-    formData.append("time", form.value.time);
-    formData.append("content", form.value.content);
+    formData.append("theme", form.theme);
+    formData.append("date", form.date);
+    formData.append("time", form.time);
+    formData.append("content", form.content);
     dynamicTags.value.forEach(tag => {
         formData.append("tags", tag)
     });
@@ -160,6 +167,12 @@ const onSubmit = async() => {
     }).catch(err => {
         // do something with err
     });
+}
+
+function reset_log_info() {
+    resetFormData.value.resetFields();
+    console.log(form);
+    files = ref([]);
 }
 </script>
 

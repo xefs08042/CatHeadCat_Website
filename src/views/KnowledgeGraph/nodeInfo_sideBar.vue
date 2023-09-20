@@ -7,7 +7,7 @@
                     <el-table-column prop="key" label="Key" width="auto" align="center" />
                     <el-table-column prop="value" label="Value" width="auto" align="center" />
                 </el-table>
-                <br><el-button type="primary" @click="reqClick">Primary</el-button>
+                <br><el-button type="primary" @click="reqClick">Commit</el-button>
             </div>
         </div>
         <div id="btn-info" class="btn-info" @click="nodeInfo_siderBar_display">
