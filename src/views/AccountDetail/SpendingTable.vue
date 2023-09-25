@@ -2,10 +2,10 @@
     <el-row>
         <el-col :span="8"><el-card class="spending-card">
             <div id="form-cotainer">
-                <p>Create New Row</p><br>
+                <h3>Create New Row</h3><br>
                 <el-form :model="form" ref="resetFormData">
                     <el-form-item label="Date" prop="date">
-                        <el-date-picker v-model="form.date" type="date" placeholder="Pick a date" style="width: 100%"/>
+                        <el-date-picker v-model="form.date" type="date" format="YYYY-MM-DD" value-format="YYYY-MM-DDTHH:mm:ss.000Z" placeholder="Pick a date" style="width: 100%"/>
                     </el-form-item>                    
                     <el-form-item label="Type" prop="type">
                         <el-select v-model="form.type" placeholder="Please Select">
@@ -43,11 +43,33 @@
             </div>
         </el-card></el-col>
         <el-col :span="16"><el-card class="spending-card">
+            <h3>History Account</h3><br>
             <div id="table_container">
+                <el-form>
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="Year">
+                                <el-select v-model="time_rage.year" placeholder="Please Select" @change="get_history_account_by_time">
+                                    <el-option v-for="year in time_rage.year_list" :label=year :value=year />
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="Month">
+                                <el-select v-model="time_rage.month" placeholder="Please Select" @change="get_history_account_by_time">
+                                    <el-option v-for="month in time_rage.month_dict[time_rage.year]" :label=month :value=month />
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                </el-form>
                 <el-table :data="tableData" style="width: 100%">
-                    <el-table-column prop="date" label="Date" width="180" />
-                    <el-table-column prop="name" label="Name" width="180" />
-                    <el-table-column prop="address" label="Address" />
+                    <el-table-column prop="date" label="Date" />
+                    <el-table-column prop="type" label="Type" />
+                    <el-table-column prop="method" label="Method" />
+                    <el-table-column prop="payee" label="Payee" />
+                    <el-table-column prop="amount" label="Amount" />
+                    <el-table-column prop="note" label="Note" />
                 </el-table>
             </div>
         </el-card></el-col>
@@ -55,10 +77,12 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, nextTick, ref } from 'vue'
-//消费日期（具体到日即可），消费类型（衣食住行等），支付方式（微信/支付宝/银行卡/现金等），
-//收款方（简要说明，有位置信息额外说明），具体金额，备注等；
-const resetFormData = ref()
+import axios from 'axios';
+import { reactive, ref, getCurrentInstance } from 'vue'
+import { ElMessage } from 'element-plus'
+
+const instance = getCurrentInstance()
+const resetFormData = ref();
 const form = reactive({
     'date': '',
     'type': '',
@@ -66,46 +90,97 @@ const form = reactive({
     'payee': '',
     'amount': 0,
     'note': '',
+});
+const tableData = ref([]);
+
+const time_rage = reactive({
+    month_dict: {},
+    year_list: [],
+    year: '',
+    month: ''
 })
+
+axios.get('/api/get_history_account/').then(res => {
+    // do something with res
+    console.log(res.data);
+    tableData.value = res.data.account_data;
+    time_rage.month_dict = res.data.month_dict;
+    time_rage.year_list = Object.keys(time_rage.month_dict);
+    time_rage.year = time_rage.year_list[0];
+    time_rage.month = time_rage.month_dict[time_rage.year_list[0]][0];
+    instance?.proxy?.$bus.emit('onSendMsg', res.data)
+}).catch(err => {
+    // do something with err
+    console.log('request error!');
+});
+
+function get_history_account_by_time() {
+    if (time_rage.year != '' && time_rage.month != '') {
+        if (!time_rage.month_dict[time_rage.year].includes(time_rage.month)) {
+            time_rage.month = time_rage.month_dict[time_rage.year][0]
+        }
+        // 发送请求
+        const post_data = {'year_month': time_rage.year + '-' + time_rage.month }
+        axios.post('/api/get_history_account/', post_data).then(res => {
+            // do something with res
+            console.log(res.data);
+            tableData.value = res.data.account_data;
+            instance?.proxy?.$bus.emit('onSendMsg', res.data)
+        }).catch(err => {
+            // do something with err
+            console.log('request error!');
+            console.log(err);
+        });
+    }
+}
 
 function submit_spending_info() {
     console.log(form)
+    if (form.date == '' || form.type == '' || form.method == '' || form.payee == '' || form.amount == 0) {
+        ElMessage({
+            message: 'please input essential info',
+            type: 'warning'
+        });
+    } else {
+        axios.post("/api/upload/spending_info/", form, {
+            headers: {
+                "content-type": "application/json"
+            }
+        }).then(res => {
+            // do something with res
+            console.log(res.data);
+            ElMessage({
+                message: 'upload spending_info success',
+                type: 'success'
+            });
+        }).catch(err => {
+            // do something with err
+            console.log('request error!');
+        });
+    }
 }
 
 function reset_spending_info() {
     resetFormData.value.resetFields();
     console.log(form)
 }
-
-const tableData = [
-  {
-    date: '2016-05-03',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-02',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-04',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-]
 </script>
 
 <style lang="scss" scoped>
 .spending-card {
     margin: 5px;
-    text-align: center;
     max-height: 300px;
     overflow-y: auto;
+}
+
+/**修改全局的滚动条*/
+/**滚动条的宽度*/
+::-webkit-scrollbar {
+  width: 8px; 
+}
+/**滚动条的滑块*/
+::-webkit-scrollbar-thumb {
+  background-color: #eaecf1;
+  border-radius: 3px;
 }
 </style>

@@ -1,58 +1,80 @@
 <template>
+    <h3>Spending Ratio</h3>
     <div id="pie_chart_cotainer"></div>
 </template>
 
 <script lang="ts" setup>
 import * as echarts from 'echarts';
+import { reactive, ref, getCurrentInstance, onMounted, onUnmounted } from 'vue'
 type EChartsOption = echarts.EChartsOption;
 
-setTimeout(() => {
-    init_line_chart();
-}, 1);
+const pie_chart_data = reactive({
+    data: [],
+})
 
-function init_line_chart() {
+function init_pie_chart() {
     var chartDom = document.getElementById('pie_chart_cotainer')!;
     var myChart = echarts.init(chartDom);
     var option: EChartsOption;
 
     option = {
-        legend: {
-            top: 'bottom'
+        tooltip: {
+            trigger: 'item'
         },
-        toolbox: {
-            show: true,
-            feature: {
-            mark: { show: true },
-            dataView: { show: true, readOnly: false },
-            restore: { show: true },
-            saveAsImage: { show: true }
-            }
+        legend: {
+            top: '5%',
+            left: 'center'
         },
         series: [
             {
-            name: 'Nightingale Chart',
+            name: 'Access From',
             type: 'pie',
-            radius: [50, 250],
-            center: ['50%', '50%'],
-            roseType: 'area',
+            radius: ['40%', '70%'],
+            avoidLabelOverlap: false,
             itemStyle: {
-                borderRadius: 8
+                borderRadius: 10,
+                borderColor: '#fff',
+                borderWidth: 2
             },
-            data: [
-                { value: 40, name: 'rose 1' },
-                { value: 38, name: 'rose 2' },
-                { value: 32, name: 'rose 3' },
-                { value: 30, name: 'rose 4' },
-                { value: 28, name: 'rose 5' },
-                { value: 26, name: 'rose 6' },
-                { value: 22, name: 'rose 7' },
-                { value: 18, name: 'rose 8' }
-            ]
+            label: {
+                show: false,
+                position: 'center'
+            },
+            // emphasis: {
+            //     label: {
+            //     show: true,
+            //     fontSize: 40,
+            //     fontWeight: 'bold'
+            //     }
+            // },
+            labelLine: {
+                show: false
+            },
+            data: pie_chart_data.data
             }
         ]
     };
 
     option && myChart.setOption(option);
+}
+
+// 获取兄弟组件的传值
+const instance = getCurrentInstance()
+onMounted(() => {
+    instance?.proxy?.$bus.on('onSendMsg', receiveMsg)
+})
+ 
+onUnmounted(() => {
+    instance?.proxy?.$bus.off('onSendMsg', receiveMsg)
+})
+ 
+function receiveMsg(val:unknown) {
+    pie_chart_data.data = val['spending_ratio'];
+    console.log(pie_chart_data.data);
+    setTimeout(() => {
+        init_pie_chart();
+    }, 1);
+    console.log(val, '这是兄弟传过来的');
 }
 </script>
 

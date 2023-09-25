@@ -53,13 +53,22 @@ a{
     padding: 0;
     width: 100%;
     height: 100%;
-    text-align: center;
 }
 
 .spending-card {
     margin: 5px;
-    text-align: center;
     max-height: 300px;
     overflow-y: auto;
+}
+
+/**修改全局的滚动条*/
+/**滚动条的宽度*/
+::-webkit-scrollbar {
+  width: 8px; 
+}
+/**滚动条的滑块*/
+::-webkit-scrollbar-thumb {
+  background-color: #eaecf1;
+  border-radius: 3px;
 }
 </style>

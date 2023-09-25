@@ -1,15 +1,17 @@
 <template>
+    <h3>Spending Trend</h3>
     <div id="line_chart_cotainer"></div>
 </template>
 
 <script lang="ts" setup>
 import * as echarts from 'echarts';
+import { reactive, ref, getCurrentInstance, onMounted, onUnmounted } from 'vue'
 type EChartsOption = echarts.EChartsOption;
 
-setTimeout(() => {
-    init_line_chart();
-}, 1);
-
+const line_chart_data = reactive({
+    date: [],
+    amount: []
+})
 function init_line_chart() {
     var chartDom = document.getElementById('line_chart_cotainer')!;
     var myChart = echarts.init(chartDom);
@@ -18,20 +20,39 @@ function init_line_chart() {
     option = {
     xAxis: {
         type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        data: line_chart_data.date
     },
     yAxis: {
         type: 'value'
     },
     series: [
         {
-        data: [150, 230, 224, 218, 135, 147, 260],
+        data: line_chart_data.amount,
         type: 'line'
         }
     ]
     };
 
     option && myChart.setOption(option);
+}
+
+// 获取兄弟组件的传值
+const instance = getCurrentInstance()
+onMounted(() => {
+    instance?.proxy?.$bus.on('onSendMsg', receiveMsg)
+})
+ 
+onUnmounted(() => {
+    instance?.proxy?.$bus.off('onSendMsg', receiveMsg)
+})
+ 
+function receiveMsg(val:unknown) {
+    line_chart_data.date = val['spending_trend']['date'];
+    line_chart_data.amount = val['spending_trend']['amount'];
+    setTimeout(() => {
+        init_line_chart();
+    }, 1);
+    console.log(val, '这是兄弟传过来的');
 }
 </script>
 
