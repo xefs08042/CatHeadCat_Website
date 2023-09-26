@@ -70,11 +70,9 @@ onUnmounted(() => {
  
 function receiveMsg(val:unknown) {
     pie_chart_data.data = val['spending_ratio'];
-    console.log(pie_chart_data.data);
     setTimeout(() => {
         init_pie_chart();
     }, 1);
-    console.log(val, '这是兄弟传过来的');
 }
 </script>
 

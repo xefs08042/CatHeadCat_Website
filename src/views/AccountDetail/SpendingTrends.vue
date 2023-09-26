@@ -52,7 +52,6 @@ function receiveMsg(val:unknown) {
     setTimeout(() => {
         init_line_chart();
     }, 1);
-    console.log(val, '这是兄弟传过来的');
 }
 </script>
 

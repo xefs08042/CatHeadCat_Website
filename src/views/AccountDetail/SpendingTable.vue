@@ -49,15 +49,15 @@
                     <el-row>
                         <el-col :span="12">
                             <el-form-item label="Year">
-                                <el-select v-model="time_rage.year" placeholder="Please Select" @change="get_history_account_by_time">
-                                    <el-option v-for="year in time_rage.year_list" :label=year :value=year />
+                                <el-select v-model="time_range.year" placeholder="Please Select" @change="get_history_account_by_time">
+                                    <el-option v-for="year in time_range.year_list" :label=year :value=year />
                                 </el-select>
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
                             <el-form-item label="Month">
-                                <el-select v-model="time_rage.month" placeholder="Please Select" @change="get_history_account_by_time">
-                                    <el-option v-for="month in time_rage.month_dict[time_rage.year]" :label=month :value=month />
+                                <el-select v-model="time_range.month" placeholder="Please Select" @change="get_history_account_by_time">
+                                    <el-option v-for="month in time_range.month_dict[time_range.year]" :label=month :value=month />
                                 </el-select>
                             </el-form-item>
                         </el-col>
@@ -93,7 +93,7 @@ const form = reactive({
 });
 const tableData = ref([]);
 
-const time_rage = reactive({
+const time_range = reactive({
     month_dict: {},
     year_list: [],
     year: '',
@@ -104,10 +104,10 @@ axios.get('/api/get_history_account/').then(res => {
     // do something with res
     console.log(res.data);
     tableData.value = res.data.account_data;
-    time_rage.month_dict = res.data.month_dict;
-    time_rage.year_list = Object.keys(time_rage.month_dict);
-    time_rage.year = time_rage.year_list[0];
-    time_rage.month = time_rage.month_dict[time_rage.year_list[0]][0];
+    time_range.month_dict = res.data.month_dict;
+    time_range.year_list = Object.keys(time_range.month_dict);
+    time_range.year = time_range.year_list[0];
+    time_range.month = time_range.month_dict[time_range.year_list[0]][0];
     instance?.proxy?.$bus.emit('onSendMsg', res.data)
 }).catch(err => {
     // do something with err
@@ -115,12 +115,12 @@ axios.get('/api/get_history_account/').then(res => {
 });
 
 function get_history_account_by_time() {
-    if (time_rage.year != '' && time_rage.month != '') {
-        if (!time_rage.month_dict[time_rage.year].includes(time_rage.month)) {
-            time_rage.month = time_rage.month_dict[time_rage.year][0]
+    if (time_range.year != '' && time_range.month != '') {
+        if (!time_range.month_dict[time_range.year].includes(time_range.month)) {
+            time_range.month = time_range.month_dict[time_range.year][0]
         }
         // 发送请求
-        const post_data = {'year_month': time_rage.year + '-' + time_rage.month }
+        const post_data = {'year_month': time_range.year + '-' + time_range.month }
         axios.post('/api/get_history_account/', post_data).then(res => {
             // do something with res
             console.log(res.data);

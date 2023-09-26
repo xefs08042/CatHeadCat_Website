@@ -1,6 +1,6 @@
 <template>
     <div class="largeBox">
-        <h1>CatHeadCat's Home</h1>
+        <h1 style="text-align: center;">CatHeadCat's Home</h1>
         <div class="subBox">
         <el-row :gutter="20" type="flex" justify="center">
             <el-col :span="6">
@@ -8,7 +8,7 @@
                     <el-card class="box-card">
                         <template #header>
                         <div class="card-header">
-                            <span>个 人 简 介</span>
+                            <span>ZRX Resume</span>
                         </div>
                         </template>
                         <div v-for="o in 4" :key="o" class="text item">{{ 'List item ' + o }}</div>
@@ -20,7 +20,7 @@
                     <el-card class="box-card" @click="toTaskLog">
                         <template #header>
                         <div class="card-header">
-                            <span>工 作 日 志</span>
+                            <span>Work Logs</span>
                         </div>
                         </template>
                         <div v-for="o in 4" :key="o" class="text item">{{ 'List item ' + o }}</div>
@@ -32,10 +32,12 @@
                     <el-card class="box-card" @click="toCHCLog">
                         <template #header>
                         <div class="card-header">
-                            <span>生 活 日 志</span>
+                            <span>Lift Logs</span>
                         </div>
                         </template>
-                        <div v-for="o in 4" :key="o" class="text item">{{ 'List item ' + o }}</div>
+                        <div class="text_item">Create New Log</div>
+                        <div class="text_item">Visit Historical Logs</div>
+                        <div class="text_item">......</div>
                     </el-card>
                 </div>
             </el-col>
@@ -44,10 +46,12 @@
                     <el-card class="box-card" @click="toKnowledgeGraph">
                         <template #header>
                         <div class="card-header">
-                            <span>知 识 图 谱</span>
+                            <span>KG visualization</span>
                         </div>
                         </template>
-                        <div v-for="o in 4" :key="o" class="text item">{{ 'List item ' + o }}</div>
+                        <div class="text_item">Web Map</div>
+                        <div class="text_item">KnowledgeGraph</div>
+                        <div class="text_item">......</div>
                     </el-card>
                 </div>
             </el-col>
@@ -58,10 +62,13 @@
                     <el-card class="box-card" @click="toAccountDetail">
                         <template #header>
                         <div class="card-header">
-                            <span>账 目 明 细</span>
+                            <span>Account Detail</span>
                         </div>
                         </template>
-                        <div v-for="o in 4" :key="o" class="text item">{{ 'List item ' + o }}</div>
+                        <div class="text_item">Create New Row</div>
+                        <div class="text_item">History Account</div>
+                        <div class="text_item">Spending Trend</div>
+                        <div class="text_item">Spending Ratio</div>
                     </el-card>
                 </div>
             </el-col>
@@ -90,20 +97,26 @@ const toAccountDetail = () => {
 
 <style lang="scss" scoped>
 .largeBox {
-    margin: 0 20px;
-    text-align: center;
+    // margin: 0 20px;
+    // text-align: center;
     overflow-x: hidden;
 }
 
 h1 {
-    padding: 10% 0;
+    padding: 5% 0;
     // color: #fff;
     // background-color: #3498db;
 }
 
 .box-card {
     height: 200px;
-    width: 240px;
+    width: 400px;
+}
+
+.card-header {
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
 }
 
 .el-col-box {
@@ -120,6 +133,10 @@ h1 {
 }
 
 .subBox {
-    margin: 50px;
+    margin: 20px;
+}
+
+.text_item{
+    margin-bottom: 5px;
 }
 </style>
