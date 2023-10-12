@@ -59,4 +59,14 @@ html, body {
   left:0;
   
 }
+
+.amap-logo {
+  display: none!important;
+  visibility: hidden!important;
+}
+ 
+.amap-copyright {
+  display: none!important;
+  visibility: hidden!important;
+}
 </style>

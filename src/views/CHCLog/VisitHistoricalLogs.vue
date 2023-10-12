@@ -15,27 +15,27 @@
                 
                 <el-scrollbar height="100%">
                     <el-row>
-                    <el-col :span="12" v-for="log in logs">
-                    <el-card class="box-card">
-                        <template #header>
-                        <div class="card-header">
-                            <el-row :gutter="20">
-                                <el-col :span="18"><div class="grid-content ep-bg-purple"><h1>{{ log.theme }}</h1></div></el-col>
-                                <el-col :span="6"><div class="grid-content ep-bg-purple" style="text-align: right;"><span>{{ log.upload_time }}</span></div></el-col>
-                            </el-row>
-                        </div>
-                        </template>
-                        <el-tag v-for="tag in log.tags" :key="tag" class="mx-1" effect="dark" size="large" style="margin: 0 5px;">
-                                {{ tag }}
-                            </el-tag>
-                        <div v-for="content in log.content" :key="content" class="text item" style="margin: 5px 5px;">
-                            {{ content }}
-                        </div>
-                        <div class="demo-image__lazy">
-                            <el-image v-for="image in log.images_url" :key="image" :src="image" lazy />
-                        </div>
-                    </el-card>
-                    </el-col>
+                        <el-col :span="12" v-for="log in logs">
+                            <el-card class="box-card">
+                                <template #header>
+                                <div class="card-header">
+                                    <el-row :gutter="20">
+                                        <el-col :span="18"><div class="grid-content ep-bg-purple"><h1>{{ log.theme }}</h1></div></el-col>
+                                        <el-col :span="6"><div class="grid-content ep-bg-purple" style="text-align: right;"><span>{{ log.upload_time }}</span></div></el-col>
+                                    </el-row>
+                                </div>
+                                </template>
+                                <el-tag v-for="tag in log.tags" :key="tag" class="mx-1" effect="dark" size="large" style="margin: 0 5px;">
+                                        {{ tag }}
+                                    </el-tag>
+                                <div v-for="content in log.content" :key="content" class="text item" style="margin: 5px 5px;">
+                                    {{ content }}
+                                </div>
+                                <div class="demo-image__lazy">
+                                    <el-image v-for="image in log.images_url" :key="image" :src="image" lazy />
+                                </div>
+                            </el-card>
+                        </el-col>
                     </el-row>
                 </el-scrollbar>
             </div>

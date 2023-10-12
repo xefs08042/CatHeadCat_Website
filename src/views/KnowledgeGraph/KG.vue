@@ -37,7 +37,7 @@ function init_GDmap() {
     }).then((AMap)=>{
         const map = new AMap.Map("map", {
             viewMode: "3D",
-            zoom: 10,
+            zoom: 6,
             center: [117.3, 34.3]
         });
 
@@ -105,8 +105,16 @@ function KGRender(map, AMap) {
     // svg.style.height = map.getSize().height + 'px';
     // const width = map.getSize().width, height = map.getSize().height;
 
-    const strokeWidth = 1.5
-    const colors = d3.scaleOrdinal(d3.schemeCategory10);
+    const strokeWidth = 1.5;
+    // const colors = d3.scaleOrdinal(d3.schemeCategory10);
+    const colors = {
+        'user': '#d62728',
+        'mblog': '#2ca02c',
+        'location': '#ff7f0e',
+        'Upload': '#9467bd',
+        'Post In': '#1f77b4',
+        'Include': '#8c564b'
+    };
     // const label = ['餐饮企业', '行业类型_小类', '行业类型_中类', '行业类型_大类', '所属区'];
     // const sizes = [7, 14, 17, 20, 23];
     
@@ -123,6 +131,8 @@ function KGRender(map, AMap) {
         // }
     }).then(function(ret){      //通过后端服务器获取json字典数据，url为请求地址
     // d3.json("public/graph.json").then(function(data) {      //通过本地json文件获取数据，path为文件路径
+        console.log('zoom: ' + map.getZoom())
+        console.log('center: ' + map.getCenter())
         console.log('status: ' + ret.data['status'])
         console.log('mblog_count: ' + ret.data['mblog_count'])
         let graph = ret.data['KG_json'];
@@ -140,7 +150,7 @@ function KGRender(map, AMap) {
             .data(graph.links)
             .enter()
             .append("line")
-            .attr("stroke", d => colors(d.type))
+            .attr("stroke", d => colors[d.relation])
             .attr("stroke-width", strokeWidth)
 
         const node = svg.append("g")
@@ -150,7 +160,7 @@ function KGRender(map, AMap) {
             .append("circle")
             .attr("id", function(d) { return d.id; })
             .attr("r", 5)
-            .attr("fill", function(d) { return colors(d.label); })
+            .attr("fill", function(d) { return colors[d.label]; })
             .attr("pointer-events", "all")
             .on('click', function(circle, node) {
                 console.log(node);

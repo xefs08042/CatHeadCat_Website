@@ -47,24 +47,31 @@
             <div id="table_container">
                 <el-form>
                     <el-row>
-                        <el-col :span="12">
+                        <el-col :span="9">
                             <el-form-item label="Year">
                                 <el-select v-model="time_range.year" placeholder="Please Select" @change="get_history_account_by_time">
                                     <el-option v-for="year in time_range.year_list" :label=year :value=year />
                                 </el-select>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="12">
+                        <el-col :span="9">
                             <el-form-item label="Month">
                                 <el-select v-model="time_range.month" placeholder="Please Select" @change="get_history_account_by_time">
                                     <el-option v-for="month in time_range.month_dict[time_range.year]" :label=month :value=month />
                                 </el-select>
                             </el-form-item>
                         </el-col>
+                        <el-col :span="6" style="text-align: center; font-size: 16px; font-weight: bold;">
+                            <div style="height: 32px; line-height: 32px;"><span>Total: </span><span style="color: red;">￥{{ time_range.total }}</span></div>
+                        </el-col>
                     </el-row>
                 </el-form>
-                <el-table :data="tableData" style="width: 100%">
-                    <el-table-column prop="date" label="Date" />
+                <el-table :cell-style="cellStyle" :data="tableData" style="width: 100%">
+                    <el-table-column prop="date" label="Date">
+                        <!-- <template v-slot="{ row }">
+                            <div :style="{ color: getBackgrandcolor(row.date) }">{{ row.date }}</div>
+                        </template> -->
+                    </el-table-column>
                     <el-table-column prop="type" label="Type" />
                     <el-table-column prop="method" label="Method" />
                     <el-table-column prop="payee" label="Payee" />
@@ -97,22 +104,29 @@ const time_range = reactive({
     month_dict: {},
     year_list: [],
     year: '',
-    month: ''
-})
-
-axios.get('/api/get_history_account/').then(res => {
-    // do something with res
-    console.log(res.data);
-    tableData.value = res.data.account_data;
-    time_range.month_dict = res.data.month_dict;
-    time_range.year_list = Object.keys(time_range.month_dict);
-    time_range.year = time_range.year_list[0];
-    time_range.month = time_range.month_dict[time_range.year_list[0]][0];
-    instance?.proxy?.$bus.emit('onSendMsg', res.data)
-}).catch(err => {
-    // do something with err
-    console.log('request error!');
+    month: '',
+    total: 0
 });
+
+init_account();
+
+function init_account() {
+    axios.get('/api/get_history_account/').then(res => {
+        // do something with res
+        console.log(res.data);
+        tableData.value = res.data.account_data;
+        time_range.month_dict = res.data.month_dict;
+        time_range.year_list = Object.keys(time_range.month_dict);
+        time_range.year = time_range.year_list[0];
+        time_range.month = time_range.month_dict[time_range.year_list[0]][0];
+        time_range.total = res.data.total_amount_month.toFixed(2);
+        instance?.proxy?.$bus.emit('onSendMsg', res.data)
+    }).catch(err => {
+        // do something with err
+        console.log('request error!');
+    });
+}
+
 
 function get_history_account_by_time() {
     if (time_range.year != '' && time_range.month != '') {
@@ -125,6 +139,7 @@ function get_history_account_by_time() {
             // do something with res
             console.log(res.data);
             tableData.value = res.data.account_data;
+            time_range.total = res.data.total_amount_month.toFixed(2);
             instance?.proxy?.$bus.emit('onSendMsg', res.data)
         }).catch(err => {
             // do something with err
@@ -149,6 +164,7 @@ function submit_spending_info() {
         }).then(res => {
             // do something with res
             console.log(res.data);
+            init_account();
             ElMessage({
                 message: 'upload spending_info success',
                 type: 'success'
@@ -164,12 +180,40 @@ function reset_spending_info() {
     resetFormData.value.resetFields();
     console.log(form)
 }
+
+// 根据单元格值修改样式（字体颜色）
+function getBackgrandcolor(date) {
+    const day = Number(date.slice(-2));
+    if (day % 2 == 0) {
+        return 'red'
+    } else {
+        return 'green'
+    }
+}
+
+const cellStyle = (data) => {
+    let borderRadius = {};
+    if (data.column.label == 'Note') {
+        borderRadius = {borderRadius: '0 10px 10px 0'}
+    } 
+    if (data.column.label == 'Date') {
+        borderRadius = {borderRadius: '10px 0 0 10px'}
+    } 
+    const day = Number(data.row.date.slice(-2))
+    let color = {}
+    if (day % 2 == 0) {
+        color = {color: 'white', background: '#bdc3c7'}
+    } else {
+        color = {background: '#ecf0f1'}
+    }
+    return {...borderRadius, ...color}
+}
 </script>
 
 <style lang="scss" scoped>
 .spending-card {
     margin: 5px;
-    max-height: 300px;
+    height: 50vh;
     overflow-y: auto;
 }
 
