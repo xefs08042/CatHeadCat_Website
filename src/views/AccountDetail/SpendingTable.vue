@@ -191,6 +191,7 @@ function getBackgrandcolor(date) {
     }
 }
 
+// 通过table的cell-style属性，可以根据设置条件，更改所有的单元格样式
 const cellStyle = (data) => {
     let borderRadius = {};
     if (data.column.label == 'Note') {
