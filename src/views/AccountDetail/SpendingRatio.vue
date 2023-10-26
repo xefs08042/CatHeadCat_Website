@@ -19,7 +19,8 @@ function init_pie_chart() {
 
     option = {
         tooltip: {
-            trigger: 'item'
+            trigger: 'item',
+            formatter: "{a} <br/>{b}: ￥{c} ({d}%)"
         },
         legend: {
             top: '5%',
@@ -27,7 +28,7 @@ function init_pie_chart() {
         },
         series: [
             {
-            name: 'Access From',
+            name: 'Classified by Type',
             type: 'pie',
             radius: ['40%', '70%'],
             avoidLabelOverlap: false,

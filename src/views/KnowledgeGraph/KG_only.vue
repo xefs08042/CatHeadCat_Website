@@ -3,6 +3,7 @@
         <div class="float_container">
             <svg id="KG"></svg>
         </div>
+        <nodeInfo_siderBar :nodeInfo="nodeInfo" @childFun="childResFun"></nodeInfo_siderBar>
     </div>
 </template>
 
@@ -19,6 +20,11 @@ import { defaults } from 'ol/control'
 import AmapLoader from '@amap/amap-jsapi-loader'
 import { shallowRef } from '@vue/reactivity'
 import nodeInfo_siderBar from './nodeInfo_sideBar.vue'
+
+const nodeInfo: any = ref(null);
+const childResFun = (val: any) => {
+    console.log(val);
+};
 
 function KGclear() {
     var svg:any = document.getElementById('KG');
@@ -74,6 +80,7 @@ function KGRender() {
             .attr("pointer-events", "all")
             .on('click', function(circle, node) {
                 console.log(node);
+                nodeInfo.value = Object.entries(node).map(([key, value]) => ({'key': [key], 'value': value}));
             });
 
         node.call(

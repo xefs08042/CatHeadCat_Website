@@ -1,6 +1,7 @@
 import { createRouter,createWebHistory,RouteRecordRaw } from "vue-router";
 import Home from "../views/Home/Home.vue"
 import Login from "../views/Login/Login.vue"
+import CHCIntro from "../views/CHCIntro/CHCIntro.vue"
 import CHCLog from "../views/CHCLog/CHCLog.vue"
 import TaskLog from "../views/TaskLog/TaskLog.vue"
 import KnowledgeGraph from '../views/KnowledgeGraph/KG.vue'
@@ -15,6 +16,11 @@ const routes:RouteRecordRaw[] = [
         path:'/home',
         name:'Home',
         component:Home
+    },
+    {
+        path:'/CHCIntro',
+        name:'CHCIntro',
+        component:CHCIntro,
     },
     {
         path:'/CHCLog',

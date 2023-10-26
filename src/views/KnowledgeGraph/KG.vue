@@ -33,14 +33,17 @@ function init_GDmap() {
     AmapLoader.load({
         key:"a4d64ee73568c1885a77e32d91d2e89b",
         version:"",
-        plugins:[''],
+        plugins: [''],
     }).then((AMap)=>{
         const map = new AMap.Map("map", {
             viewMode: "3D",
-            zoom: 6,
+            zoom: 10,
             center: [117.3, 34.3]
         });
-
+        AMap.plugin(['AMap.ControlBar','AMap.Scale'],function(){
+            map.addControl(new AMap.ControlBar({position: {top: '5px', left: '-90px'}}));
+            map.addControl(new AMap.Scale());
+        });
         // 单击
         map.on('click',(e) => {
             // lng ==> 经度值  lat => 维度值
@@ -164,7 +167,7 @@ function KGRender(map, AMap) {
             .attr("pointer-events", "all")
             .on('click', function(circle, node) {
                 console.log(node);
-                nodeInfo.value = Object.entries(node).map(([key, value]) => ({'key': [key], 'value': value}));;
+                nodeInfo.value = Object.entries(node).map(([key, value]) => ({'key': [key], 'value': value}));
             });
 
         node.call(

@@ -30,7 +30,18 @@ function init_line_chart() {
         data: line_chart_data.amount,
         type: 'line'
         }
-    ]
+    ],
+    tooltip: {
+        trigger: 'axis', //坐标轴触发，可设为 item 数据项图形触发
+        confine: true, //将 tooltip 框限制在图表的区域内，在移动端开发时非常有用
+        // position 可以自己设定 tooltip 的位置，下面例子是在老版本 echarts 不支持 confine 属性时写的一个当提示左侧超出画布时的限制函数
+        // position: 'top',
+        // formatter 设置提示的文字内容（需要改变样式可通过 rich 富文本实现，见文档），要在 tooltip 中显示单位，可通过函数 params 拼字符串加上如下面 % 的单位
+        formatter: function(params){
+            return params[0].marker + params[0].name + '<br/>' + '￥' + params[0].value
+        }
+    },
+
     };
 
     option && myChart.setOption(option);

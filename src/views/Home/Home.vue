@@ -5,25 +5,16 @@
         <el-row :gutter="20" type="flex" justify="center">
             <el-col :span="6">
                 <div class="el-col-box">
-                    <el-card class="box-card">
+                    <el-card class="box-card" @click="toCHCIntro">
                         <template #header>
                         <div class="card-header">
-                            <span>ZRX Resume</span>
+                            <span>ZRX Intro</span>
                         </div>
                         </template>
-                        <div v-for="o in 4" :key="o" class="text item">{{ 'List item ' + o }}</div>
-                    </el-card>
-                </div>
-            </el-col>
-            <el-col :span="6">
-                <div class="el-col-box">
-                    <el-card class="box-card" @click="toTaskLog">
-                        <template #header>
-                        <div class="card-header">
-                            <span>Work Logs</span>
-                        </div>
-                        </template>
-                        <div v-for="o in 4" :key="o" class="text item">{{ 'List item ' + o }}</div>
+                        <div class="text_item">Base Information</div>
+                        <div class="text_item">Educational Background</div>
+                        <div class="text_item">School Experience</div>
+                        <div class="text_item">Certificate & Skills</div>
                     </el-card>
                 </div>
             </el-col>
@@ -55,8 +46,6 @@
                     </el-card>
                 </div>
             </el-col>
-        </el-row><br>
-        <el-row :gutter="20" type="flex" justify="center">
             <el-col :span="6">
                 <div class="el-col-box">
                     <el-card class="box-card" @click="toAccountDetail">
@@ -72,6 +61,20 @@
                     </el-card>
                 </div>
             </el-col>
+        </el-row><br>
+        <el-row :gutter="20" type="flex" justify="center">
+            <el-col :span="6">
+                <div class="el-col-box">
+                    <el-card class="box-card" @click="toTaskLog">
+                        <template #header>
+                        <div class="card-header">
+                            <span>Work Logs</span>
+                        </div>
+                        </template>
+                        <div v-for="o in 4" :key="o" class="text item">{{ 'List item ' + o }}</div>
+                    </el-card>
+                </div>
+            </el-col>
         </el-row>
         </div>
     </div>
@@ -81,6 +84,9 @@
 import {useRouter} from 'vue-router'
 const router = useRouter()
 // 登录成功，页面跳转
+const toCHCIntro = () => {
+    router.push('/CHCIntro')
+}
 const toCHCLog = () => {
   router.push('/CHCLog')
 }

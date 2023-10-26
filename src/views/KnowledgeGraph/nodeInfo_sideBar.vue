@@ -21,7 +21,7 @@
                         <h4 style="margin-bottom: 5px;">Nodes</h4>
                         <div>
                             <span class="lengend-point" style="background-color: #ff7f0e; "></span>
-                            <p style="display: inline-block;">Address</p>
+                            <p style="display: inline-block;">Location</p>
                         </div>
                         <div>
                             <span class="lengend-point" style="background-color: #2ca02c;"></span>
@@ -48,7 +48,6 @@
                         </div>
                     </el-col>
                 </el-row>
-                
             </el-card>
         </transition>
         <div id="btn-legend" class="btn-legend" @click="show_legend">
