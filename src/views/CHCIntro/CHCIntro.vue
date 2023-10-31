@@ -237,9 +237,9 @@ const toHome = () => {
   router.push('/home')
 }
 
-document.addEventListener("keydown",function(e){
-    alert("您按下的按钮的keyCode为："+e.keyCode)
-})
+// document.addEventListener("keydown",function(e){
+//     alert("您按下的按钮的keyCode为："+e.keyCode)
+// })
 </script>
 
 <style lang="scss" scoped>

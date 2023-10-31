@@ -6,6 +6,7 @@ import CHCLog from "../views/CHCLog/CHCLog.vue"
 import TaskLog from "../views/TaskLog/TaskLog.vue"
 import KnowledgeGraph from '../views/KnowledgeGraph/KG.vue'
 import AccountDetail from '../views/AccountDetail/AccountDetail.vue'
+import Piano from '../views/Piano/CHCPiano.vue'
 const routes:RouteRecordRaw[] = [
     {
         path:'/',
@@ -81,6 +82,32 @@ const routes:RouteRecordRaw[] = [
         path:'/AccountDetail',
         name:'AccountDetail',
         component:AccountDetail,
+    },
+    {
+        path:'/Piano',
+        name:'Piano',
+        component:Piano,
+        redirect: to => {
+            return '/Piano/simulator'
+        },
+        children:[
+            {
+                path:'/Piano/simulator',
+                name:'PianoSimulator',
+                component:()=>import('../views/Piano/PianoSimulator.vue'),
+                meta: {
+                    keepAlive:true
+                }
+            },
+            {
+                path:'/Piano/animenz',
+                name:'AnimenzPiano',
+                component:()=>import('../views/Piano/AnimenzPiano.vue'),
+                meta: {
+                    keepAlive:true
+                }
+            },
+        ]
     },
 ]
 const router = createRouter({

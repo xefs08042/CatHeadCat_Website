@@ -75,6 +75,18 @@
                     </el-card>
                 </div>
             </el-col>
+            <el-col :span="6">
+                <div class="el-col-box">
+                    <el-card class="box-card" @click="toPiano">
+                        <template #header>
+                        <div class="card-header">
+                            <span>Piano</span>
+                        </div>
+                        </template>
+                        <div v-for="o in 4" :key="o" class="text item">{{ 'List item ' + o }}</div>
+                    </el-card>
+                </div>
+            </el-col>
         </el-row>
         </div>
     </div>
@@ -98,6 +110,9 @@ const toKnowledgeGraph = () => {
 }
 const toAccountDetail = () => {
   router.push('/AccountDetail')
+}
+const toPiano = () => {
+  router.push('/Piano')
 }
 </script>
 
