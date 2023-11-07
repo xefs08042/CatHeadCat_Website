@@ -4,24 +4,8 @@
     </div>
 </template>
 
-<script>
-export default {
-    name: 'MyVueAnimenzPiano',
+<script lang="ts" setup>
 
-    data() {
-        return {
-            
-        };
-    },
-
-    mounted() {
-        
-    },
-
-    methods: {
-        
-    },
-};
 </script>
 
 <style lang="scss" scoped>

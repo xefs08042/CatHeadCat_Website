@@ -15,36 +15,36 @@
         </div>
         <transition name="fade">
             <el-card class="legend-card" v-show="legend_status">
-                <h3 style="width: 300px; margin-bottom: 5px;">Legend</h3>
+                <h3 style="width: 300px; margin-bottom: 5px;">图例</h3>
                 <el-row>
                     <el-col :span="12">
-                        <h4 style="margin-bottom: 5px;">Nodes</h4>
+                        <h4 style="margin-bottom: 5px;">节点</h4>
                         <div>
                             <span class="lengend-point" style="background-color: #ff7f0e; "></span>
-                            <p style="display: inline-block;">Location</p>
+                            <p style="display: inline-block;">地点</p>
                         </div>
                         <div>
                             <span class="lengend-point" style="background-color: #2ca02c;"></span>
-                            <p style="display: inline-block;">Mblog</p>
+                            <p style="display: inline-block;">微博文本</p>
                         </div>
                         <div>
                             <span class="lengend-point" style="background-color: #d62728;"></span>
-                            <p style="display: inline-block;">User</p>
+                            <p style="display: inline-block;">微博用户</p>
                         </div>
                     </el-col>
                     <el-col :span="12">
-                        <h4 style="margin-bottom: 5px;">Links</h4>
+                        <h4 style="margin-bottom: 5px;">边</h4>
                         <div>
                             <div style="margin: 0 5px; width: 50px; border: 1px solid #8c564b; vertical-align: middle; display: inline-block;"></div>
-                            <p style="display: inline-block;">Include</p>
+                            <p style="display: inline-block;">包含</p>
                         </div>
                         <div>
                             <div style="margin: 0 5px; width: 50px; border: 1px solid #1f77b4; vertical-align: middle; display: inline-block;"></div>
-                            <p style="display: inline-block;">Post In</p>
+                            <p style="display: inline-block;">定位</p>
                         </div>
                         <div>
                             <div style="margin: 0 5px; width: 50px; border: 1px solid #9467bd; vertical-align: middle; display: inline-block;"></div>
-                            <p style="display: inline-block;">Upload</p>
+                            <p style="display: inline-block;">发布</p>
                         </div>
                     </el-col>
                 </el-row>
