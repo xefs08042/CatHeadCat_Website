@@ -86,7 +86,7 @@
 <script lang="ts" setup>
 import axios from 'axios';
 import { reactive, ref, getCurrentInstance } from 'vue'
-import { ElMessage } from 'element-plus'
+import { ElNotification } from 'element-plus'
 
 const instance = getCurrentInstance()
 const resetFormData = ref();
@@ -152,7 +152,8 @@ function get_history_account_by_time() {
 function submit_spending_info() {
     console.log(form)
     if (form.date == '' || form.type == '' || form.method == '' || form.payee == '' || form.amount == 0) {
-        ElMessage({
+        ElNotification({
+            title: 'Warning',
             message: 'please input essential info',
             type: 'warning'
         });
@@ -165,7 +166,8 @@ function submit_spending_info() {
             // do something with res
             console.log(res.data);
             init_account();
-            ElMessage({
+            ElNotification({
+                title: 'Success',
                 message: 'upload spending_info success',
                 type: 'success'
             });

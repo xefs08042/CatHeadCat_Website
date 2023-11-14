@@ -74,7 +74,7 @@
 import axios from 'axios'
 import { reactive, nextTick, ref } from 'vue'
 import { Plus } from '@element-plus/icons-vue'
-import { ElInput, UploadProps, UploadUserFile } from 'element-plus'
+import { ElInput, ElNotification, UploadProps, UploadUserFile } from 'element-plus'
 import { toRaw } from '@vue/reactivity'     // toRaw(Proxy) 将Proxy对象转为一般格式
 
 //Tag组件功能
@@ -162,6 +162,11 @@ const onSubmit = async() => {
     }).then(res => {
         // do something with res
         console.log(form);
+        ElNotification({
+            title: 'Success',
+            message: 'upload life_log success',
+            type: 'success'
+        });
         console.log('submit!');
         console.log(res.data);
     }).catch(err => {

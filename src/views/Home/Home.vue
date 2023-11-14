@@ -83,7 +83,9 @@
                             <span>Piano</span>
                         </div>
                         </template>
-                        <div v-for="o in 4" :key="o" class="text item">{{ 'List item ' + o }}</div>
+                        <div class="text_item">Piano Simulator</div>
+                        <div class="text_item">Animenz Piano</div>
+                        <div class="text_item">......</div>
                     </el-card>
                 </div>
             </el-col>
