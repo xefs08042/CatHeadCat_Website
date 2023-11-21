@@ -41,16 +41,16 @@
                     <div class="piano_key_group">
                         <div class="key_groups_white">
                             <div v-for="group in pitch_groups" class="key_group_white">
-                                <div v-for="roll_call in roll_calls_white" class="white_key" :pitch="roll_call + group" @click="showPitch($event)">
+                                <div v-for="roll_call in roll_calls_white" class="white_key" :pitch="roll_call + group" @mousedown="showPitch($event)" @mouseenter="showPitch_enter($event)">
                                     <div style="height: 360px; pointer-events: none;"></div>
                                     {{ roll_call + group }}
                                 </div>
                             </div>
-                            <div class="white_key" @click="showPitch_C8"><div style="height: 360px" @click="showPitch_C8"></div><h4>C8</h4></div>
+                            <div class="white_key" pitch="C8" @mousedown="showPitch($event)" @mouseenter="showPitch_enter($event)"><div style="height: 360px; pointer-events: none;"></div>C8</div>
                         </div>
                         <div class="key_groups_black">
                             <div v-for="group in pitch_groups" class="key_group_black">
-                                <div v-for="black in roll_calls_black" class="black_key" :style="black.margin" :pitch="black.roll_call + group" @click="showPitch($event)">
+                                <div v-for="black in roll_calls_black" class="black_key" :style="black.margin" :pitch="black.roll_call + group" @mousedown="showPitch($event)" @mouseenter="showPitch_enter($event)">
                                     <div style="height: 180px; pointer-events: none;"></div>
                                     {{ black.roll_call + group }}
                                 </div>
@@ -183,14 +183,18 @@ const eq = new Tone.EQ3().toDestination(); // 添加均衡器效果
 piano.connect(eq);
 eq.connect(reverb);
 
-// 钢琴键盘的按键点击事件
+// 钢琴键盘的按键点击事件及按住拖动事件（实现刮奏效果）
 const showPitch = (e) => {
     const pitch = e.target.getAttribute('pitch')
     console.log(pitch);
     piano.triggerAttackRelease(pitch, "4n");
 }
-const showPitch_C8 = () => {
-    piano.triggerAttackRelease("C8", "4n");
+const showPitch_enter = (e) => {
+    if (e.buttons > 0) {    // 判断鼠标是否按住（至少一个键，左键、右键及滚轮均可）
+        const pitch = e.target.getAttribute('pitch')
+        console.log(pitch);
+        piano.triggerAttackRelease(pitch, "4n");
+    } 
 }
 
 // PC键盘的按键点击事件
