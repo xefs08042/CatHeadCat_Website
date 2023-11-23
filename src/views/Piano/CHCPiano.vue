@@ -23,24 +23,8 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import * as Tone from 'tone'
 import { useRouter } from "vue-router";
 
-const synth = new Tone.Synth().toDestination();
-const roll_calls_white = ["C", "D", "E", "F", "G", "A", "B"]
-const pitch_groups = [1, 2, 3, 4, 5, 6, 7]
-const roll_calls_black = [
-        {"roll_call": "C#", "margin": "margin-left: 51px"},
-        {"roll_call": "D#", "margin": "margin-left: 11px"},
-        {"roll_call": "F#", "margin": "margin-left: 51px"},
-        {"roll_call": "G#", "margin": "margin-left: 11px"},
-        {"roll_call": "A#", "margin": "margin-left: 10px"},
-    ]
-const showPitch = (e) => {
-    const pitch = e.target.getAttribute('pitch')
-    console.log(pitch);
-    synth.triggerAttackRelease(pitch, "8n");
-}
 const handleSelect = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
 }

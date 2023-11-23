@@ -7,6 +7,7 @@ import TaskLog from "../views/TaskLog/TaskLog.vue"
 import KnowledgeGraph from '../views/KnowledgeGraph/KG.vue'
 import AccountDetail from '../views/AccountDetail/AccountDetail.vue'
 import Piano from '../views/Piano/CHCPiano.vue'
+import DataCrawler from '../views/DataCrawler/DataCrawler.vue'
 const routes:RouteRecordRaw[] = [
     {
         path:'/',
@@ -50,30 +51,6 @@ const routes:RouteRecordRaw[] = [
         ]
     },
     {
-        path:'/TaskLog',
-        name:'TaskLog',
-        component:TaskLog,
-        redirect: '/TaskLog/create',
-        children:[
-            {
-                path:'/TaskLog/create',
-                name:'CreateNewLogT',
-                component:()=>import('../views/TaskLog/CreateNewLog.vue'),
-                meta: {
-                    keepAlive:true
-                }
-            },
-            {
-                path:'/TaskLog/visit',
-                name:'VisitHistoricalLogsT',
-                component:()=>import('../views/TaskLog/VisitHistoricalLogs.vue'),
-                meta: {
-                    keepAlive:true
-                }
-            },
-        ]
-    },
-    {
         path:'/KnowledgeGraph',
         name:'KnowledgeGraph',
         component:KnowledgeGraph,
@@ -103,6 +80,56 @@ const routes:RouteRecordRaw[] = [
                 path:'/Piano/animenz',
                 name:'AnimenzPiano',
                 component:()=>import('../views/Piano/AnimenzPiano.vue'),
+                meta: {
+                    keepAlive:true
+                }
+            },
+        ]
+    },
+    {
+        path:'/DataCrawler',
+        name:'DataCrawler',
+        component:DataCrawler,
+        redirect: to => {
+            return '/DataCrawler/microblog'
+        },
+        children:[
+            {
+                path:'/DataCrawler/microblog',
+                name:'MicroBlogCrawler',
+                component:()=>import('../views/DataCrawler/MicroBlogCrawler.vue'),
+                meta: {
+                    keepAlive:true
+                }
+            },
+            {
+                path:'/DataCrawler/games',
+                name:'GamesCrawler',
+                component:()=>import('../views/DataCrawler/GamesCrawler.vue'),
+                meta: {
+                    keepAlive:true
+                }
+            },
+        ]
+    },
+    {
+        path:'/TaskLog',
+        name:'TaskLog',
+        component:TaskLog,
+        redirect: '/TaskLog/create',
+        children:[
+            {
+                path:'/TaskLog/create',
+                name:'CreateNewLogT',
+                component:()=>import('../views/TaskLog/CreateNewLog.vue'),
+                meta: {
+                    keepAlive:true
+                }
+            },
+            {
+                path:'/TaskLog/visit',
+                name:'VisitHistoricalLogsT',
+                component:()=>import('../views/TaskLog/VisitHistoricalLogs.vue'),
                 meta: {
                     keepAlive:true
                 }

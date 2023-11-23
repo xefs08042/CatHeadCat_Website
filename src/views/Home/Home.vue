@@ -65,18 +65,6 @@
         <el-row :gutter="20" type="flex" justify="center">
             <el-col :span="6">
                 <div class="el-col-box">
-                    <el-card class="box-card" @click="toTaskLog">
-                        <template #header>
-                        <div class="card-header">
-                            <span>Work Logs</span>
-                        </div>
-                        </template>
-                        <div v-for="o in 4" :key="o" class="text item">{{ 'List item ' + o }}</div>
-                    </el-card>
-                </div>
-            </el-col>
-            <el-col :span="6">
-                <div class="el-col-box">
                     <el-card class="box-card" @click="toPiano">
                         <template #header>
                         <div class="card-header">
@@ -86,6 +74,32 @@
                         <div class="text_item">Piano Simulator</div>
                         <div class="text_item">Animenz Piano</div>
                         <div class="text_item">......</div>
+                    </el-card>
+                </div>
+            </el-col>
+            <el-col :span="6">
+                <div class="el-col-box">
+                    <el-card class="box-card" @click="toDataCrawler">
+                        <template #header>
+                        <div class="card-header">
+                            <span>Data Crawler</span>
+                        </div>
+                        </template>
+                        <div class="text_item">Micro-Blog Crawler</div>
+                        <div class="text_item">Other Crawler</div>
+                        <div class="text_item">......</div>
+                    </el-card>
+                </div>
+            </el-col>
+            <el-col :span="6">
+                <div class="el-col-box">
+                    <el-card class="box-card" @click="toTaskLog">
+                        <template #header>
+                        <div class="card-header">
+                            <span>Work Logs</span>
+                        </div>
+                        </template>
+                        <div v-for="o in 4" :key="o" class="text item">{{ 'List item ' + o }}</div>
                     </el-card>
                 </div>
             </el-col>
@@ -115,6 +129,9 @@ const toAccountDetail = () => {
 }
 const toPiano = () => {
   router.push('/Piano')
+}
+const toDataCrawler =()=> {
+    router.push('/DataCrawler')
 }
 </script>
 
