@@ -19,14 +19,10 @@
         </el-container>
     </div>
 
-    <div>
-        <el-button plain @click="test">Return Progress</el-button>
-    </div>
 </template>
 
 <script lang="ts" setup>
-import axios from 'axios';
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { useRouter } from "vue-router";
 
 const handleSelect = (key: string, keyPath: string[]) => {
@@ -36,41 +32,6 @@ const activeIndex = ref('1')
 const router = useRouter();
 const toHome = () => {
   router.push('/home')
-}
-
-const number = ref(0);
-var eventSource;
-watch(number, (newVal, oldVal) => {
-    console.log(newVal);
-    if (newVal >= 9) {
-        console.log('stop');
-        eventSource.close();
-    };
-});
-
-const test =()=> {
-    axios.get('/api/init_crawler/').then(res => {
-        console.log(res.data);
-    }).catch(err => {
-        // do something with err
-        console.log('request error!');
-        console.log(err);
-    });
-    eventSource = new EventSource('/api/rtn_crawler_pgs/');
-    // 监听 message 事件，处理服务器发送的数据
-    eventSource.addEventListener('message', (event) => {
-        // 更新 responseData，显示服务器发送的数据
-        number.value = event.data;
-    });
-    // 监听 error 事件，处理连接错误
-    // eventSource.addEventListener('error', (error) => {
-    //     console.error('Error:', error);
-    //     eventSource.close(); // 关闭 EventSource 连接
-    // });
-    // 在组件销毁时关闭 EventSource 连接
-    //     this.$once('hook:beforeDestroy', () => {
-    //     eventSource.close();
-    // });
 }
 </script>
 
